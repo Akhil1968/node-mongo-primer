@@ -1,0 +1,23 @@
+{
+  "name": "cricket",
+  "version": "1.0.0",
+  "description": "Cricket Scorecard program",
+  "main": "server.js",
+  "dependencies": {
+    "mongodb": "^2.1.4",
+    "mongoose": "^4.1.2",
+    "body-parser": "^1.13.3",
+    "express":"latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js",
+    "test": "dir",
+    "npmver": "npm -v",
+    "nodever": "node -v"
+  },
+  "config":{"port":"1968"},
+  "keywords": ["Cricket", "Node", "Angular", "MongoDB", "Express"],
+  "author": "Akhil",
+  "license": "ISC"
+}
