@@ -4,11 +4,11 @@ var mongoclient = mongodb.MongoClient;
 mongoclient.connect("mongodb://127.0.0.1/", function( err, db) { 
   if(err) throw err;
 
-  var mydb = db.db("cricketDB");
-  mydb.collections(function(err, collections){
+  var mydb = db.db("VehiclesDB");
+  mydb.collections(function(err, collsArray){
   	//console.log(collections);
-  	for(var i=0; i<collections.length; i++){
-  		console.log("Collection " + ( i + 1 ) + " : " + collections[i].namespace)
+  	for(var i=0; i<collsArray.length; i++){
+  		console.log("Collection " + ( i + 1 ) + " : " + collsArray[i].namespace)
   	}
   	mydb.close();
   });

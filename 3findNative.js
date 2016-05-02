@@ -1,17 +1,17 @@
 var MongoClient = require('mongodb').MongoClient; 
-console.log(".......This programs lists documents in a Collection......");
+
 MongoClient.connect("mongodb://127.0.0.1/", function( err, db) { 
   if(err) throw err;
   console.log("Connection successfully established to mongoDB server");
-  var mydb = db.db("meanDB");
+  var mydb = db.db("VehiclesDB");
   //var mydb = db;
-  mydb.collection("Vehicle", function(err, veh){
+  mydb.collection("Vehicles", function(err, coll){
   	if (err){
-  		console.log("Vehicle collection not found!");
+  		console.log("Vehicles collection not found!");
   	}else{
-		console.log("Found the  collection 'Vehicle' successfully!");
+		console.log("Found the  collection 'Vehicles' successfully!");
 	  	//console.log(veh);
-	  	veh.find(function(er, docsCursor){
+	  	coll.find(function(er, docsCursor){
 	  		if (!er){
 	  			console.log("-:Documents within collection Vehicle:-");
 	  			docsCursor.each(function(errorADoc, aDoc){
@@ -19,12 +19,11 @@ MongoClient.connect("mongodb://127.0.0.1/", function( err, db) {
 		  				console.log(" Document " + JSON.stringify(aDoc));
 		  			}else{
 		  				console.log("No more documents found within the collection")
+		  				mydb.close();
 		  			}
-	  		
-	  			});
-	  		}
-	  		setTimeout( function(){ mydb.close(); }, 100);
-	  	});//find()
+	  			});//docsCursor.each
+	  		}//if (!er)
+	  	});//coll.find()
   	}	
-  });// find a collection Vehicle
- });
+  });// mydb.collection
+ });//MongoClient.connect(
