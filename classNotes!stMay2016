@@ -1,0 +1,411 @@
+
+
+
+NodeJS is a JavaScript runtime environment built upon Google’s V8 JavaScript engine. The asynch-callback functionality of NodeJS makes it a great choice for server-side applications.
+
+npm is –
+•	a command line program that automatically gets installed when installing NodeJS. It is used to install 3rd Party node modules.
+•	a repository of 3rd party node modules
+•	a website 
+
+Some npm commands:
+•	npm init
+•	npm install
+•	npm install <module-name>
+•	npm install <modulename> -g
+•	npm install <modulename> --save
+
+package.json is a file in json format that describes any module. Among other things it expresses various types of 3rd-party module dependencies.
+
+Node JS supports 3 types of modules-
+1.	Core Modules (like os, http, net, stream, events etc)
+2.	Third Party Modules (like express, chalk, nodemon, body-parser, express-handlebars etc)
+3.	Custom Modules- understanding exports
+ 
+
+
+Committing code to github:
+1.	Prepare to commit code at github
+a.	Create a repository at github
+b.	In your local project folder create a .gitignore file, which is used to describe the files that we don’t want to push to remote repository. node_modules/*
+c.	Create a Procfile : Heroku uses Procfile which tells Heroku how to start an app. 
+ 		web: node app.js
+d.	Create README.md file
+e.	Create LICENSE file
+f.	var port = process.env.PORT || 3000;
+2.	Issue the following commands
+git init
+git add -A
+git commit -am "comment"
+git push <repository-url> master
+
+Deploying on Heroku:
+•	Create App
+•	Deploy Method : Select Github
+•	Connect to Github
+•	Manual Deploy
+o	Master   Deploy Branch
+
+
+Express:
+-	Creating an express application
+-	Mapping http GET requests
+-	Retrieving HTTP GET Request Parameters using 
+o	req.query.nm and
+o	req.params.nm
+
+
+
+
+-	Specifying public folder in express app
+o	app.use(express.static(__dirname + "/public"));
+
+-	Understanding body-parser middleware
+o	app.use(bodyparser.json());
+o	app.use(bodyparser.urlencoded({extended:false}));
+o	req.body.nm
+
+-	Understanding session handling middleware
+o	app.use(session({secret: "secret",  resave : true,  saveUninitialized : false}));
+
+-	Understanding EJS template engine
+o	No need to ‘require’
+o	app.set('view engine', 'ejs');
+o	keep template files in views folder. Template files should have .ejs extension.
+o	Partials should be kept in the folder views/partials
+o	<%include partials/includeHead.ejs %>
+o	<%= person%>
+o	res.render('landingpage.ejs', {welcomeMessage:person});
+
+-	Understanding Handlebars template engine
+o	var handlebars = require('express-handlebars');
+o	app.set('view engine', 'handlebars');
+o	app.engine('handlebars', handlebars({}));
+o	keep template files in views folder. Template files should have .handlebars extension.
+o	Partials should be kept in the folder views/partials
+o	{{>includeHead}} – No path, no extension
+o	{{cityName}}
+o	res.render('landingpage.handlebars', {welcomeMessage:person});
+
+-	Bootstrap
+o	head
+    <meta charset="utf-8">
+  <title>Basic Bootstrap Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+o	Foot
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+ 
+
+
+-Understanding the JADE template engine
+-	Unlike EJS and handlebars, JADE is whitespace sensitive and you don’t need to close your HTML tags in JADE. It’s similar to python syntax and it does not use starting and ending curly braces (‘{‘, ‘}’) for code blocks. It uses whitespace indentation, to structure the code blocks.  
+ -	In case of div we can even skip the tag name, to specify id attribute we use # symbol and for specifying class attribute we use . symbol 
+ -	In JADE you specify the attributes, inside brackets as comma separated values, as shown below
+ o	In Jade you can specify JavaScript code by using the hyphen (-) symbol before the JavaScript code.
+ 
+-	HTML to Jade convertor (http://html2jade.org/)
+
+-	How to use JADE in code
+o	No need to ‘require’
+o	app.set('view engine', 'jade');
+o	keep template files in views folder. Template files should have .handlebars extension.
+o	Partials should be kept in the folder views/partials
+o	Including partials :
+	include partials/includeHead.jade
+o	Referring to variables
+	h2= person
+	#{person}
+o	res.render('landingpage.jade', {welcomeMessage:person});
+
+
+-	Handling HTTP 400 errors (Client Errors) in express applications
+app.use("*", function(req, res) {
+     res.status(404);
+     res.render('404.handlebars', {});
+});
+
+-	Handling HTTP 500 errors (Server errors) in express applications
+app.use(function(error, req, res, next) {
+     console.log(chalk.red('Error : 500::' + error))
+     res.status(500);
+     res.render('500.handlebars', {err:error});  // good for knowledge but don't do it
+});
+
+
+
+-	Checking Heroku logs-
+heroku logs --ps web.1 --app <my-app> -t
+ 
+
+
+
+Mongodb and mongo-shell
+In your mongodb installation folder, 
+•	mongod.exe is the mongoDB database system
+•	mongo.exe is mongoDB shell that is used to manipulate mongodb without writing a program
+
+Starting and shutting down mongodb
+•	Create a data folder for mongodb, say c:\mongodata
+•	If mongoDB is installed at :\Program Files\MongoDB\Server\3.0\bin then the following commands on command prompt starts your mongodb:
+cd C:\Program Files\MongoDB\Server\3.0\bin
+mongod -dbpath C:\mongodata
+
+mongodb shows the following after starting-up:
+waiting for connections on port 27017
+
+•	To shutdown goto command prompt and do this to open mongo-shell:
+cd C:\Program Files\MongoDB\Server\3.0\bin
+mongo
+•	On mongo shell prompt :
+use admin
+db.shutdownServer();
+
+CRUD on mongo shell :
+use <dbname>
+
+show collections
+
+show dbs
+
+db.createCollection(‘collection-name’);
+
+db.createCollection('Vehicles');
+var coll = db.getCollection('Vehicles');
+coll.find();
+
+coll.insert({vehicle:'bycicle', model:'Maruti', speed:100, qty:40});
+coll.insert({vehicle:'car', model:'BMW', speed:200});
+coll.insert({vehicle:'train', model:'TVG', speed:600});
+coll.insert({vehicle:'train', model:'Indian Rail', speed:200});
+coll.insert({vehicle:'aircraft', model:'Boeing', speed:1500});
+coll.insert({vehicle:'aircraft', model:'Airbus', speed:1200});
+
+coll.find();
+coll.find().pretty();
+coll.find({vehicle:'car'});
+coll.find({speed:600});
+coll.find({speed:{$gt:150}});
+
+coll.update({model:'TVG'}, {$set:{speed:650}}, {multi:false});
+coll.update({model:'BMW'}, {$set:{qty:50}}, {multi:false});
+coll.update({model:'Maruti'}, {$set:{qty:55}}, {multi:false});
+coll.update({model:'TVG'}, {$set:{qty:3}}, {multi:false});
+coll.update({model:'Boeing'}, {$set:{qty:3}}, {multi:false});
+coll.update({model:'Indian Rail'}, {$set:{qty:10}}, {multi:false});
+coll.update({model:'Airbus'}, {$set:{qty:1}}, {multi:false});
+coll.update({model:'TVG'}, {$set:{qty:1}}, {multi:false});
+
+
+coll.remove({model:'Airbus'});
+
+coll.count({vehicle:'car'});
+
+
+
+Manipulating MongoDB data through NodeJS applications:
+•	Using mongodb native driver
+•	Using mongoose driver
+
+
+Summernote:
+
+Summernote is rich-text editor that can embedded on any HTML page. It uses JQuery, Bootstrap and font-awesome.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Summarnote Editor Demonstration...</title>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.1/summernote.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.1/summernote.js"></script>
+</head>
+<body>
+
+<div class="form-group">
+  <label for="name" class="col-sm-2 control-label">Summarnote</label>
+   <div class="col-lg-10">
+    <textarea name="content" id="storyContent" required rows="8" class="form-control"></textarea>
+   </div>
+</div>
+ <script>
+    $(document).ready(function() {
+        $('#storyContent').summernote({
+          height:100,
+          toolbar: [
+
+         ['style', ['bold', 'italic', 'underline', 'clear']],
+         ['font', ['strikethrough', 'superscript', 'subscript']],
+         ['fontsize', ['fontsize']],
+        
+         ['para', ['ul', 'ol', 'paragraph']],
+         ['height', ['height']],
+         ['link', ['linkDialogShow', 'unlink']],
+         
+            ]
+        });
+    });
+  </script>
+</body>
+</html>
+
+
+Mongolab:
+Monogolab (mlab.com) is cloud service provider for mongodb. Use mongoDB on clous-
+•	Create an account on mongolab.
+•	Login to your account and then select “Create New” to create a DB
+•	Select AWS option for free ‘sandbox’ version of db
+•	Provide a name to your db
+•	Create a user for your db: provide user credentials
+•	To connect using the mongo shell:
+•	mongo ds015879.mlab.com:15879/edurekadb -u <dbuser> -p <dbpassword>
+•	To connect using a driver via the standard MongoDB URI 
+•	  mongodb://<dbuser>:<dbpassword>@ds015879.mlab.com:15879/edurekadb
+Activities:
+•	Connect to mongodb on mongolab from your local mongoDB shell
+•	Connect to mongodb on mongolab from your local Nodejs application
+•	Connect to mongodb on mongolab from Nodejs application deployed on heroku
+•	Deploy the CRUD application on heroku and let it access mongolab’s db
+
+
+
+Activities:
+•	Basic-Chat application
+•	Breaking news application
+
+
+
+bcrypt  is a third party module used to hash a password before storing it in db. Hashing is a one way procedure.
+
+var Bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
+var pass = '123456789';
+
+Bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if(err) {
+                return console.error(err);
+        }
+        Bcrypt.hash(pass, salt, function(err, hash) {
+                if(err) {
+                        return console.error(err);
+                }
+                console.log(hash);
+                Bcrypt.compare(pass, hash, function(err, isMatch) {
+                        if(err) {
+                                return console.error(err);
+                        }
+                        console.log('do they match?', isMatch);
+                });
+        });
+});
+
+Checking Heroku logs-
+heroku logs --ps web.1 --app <my-app> -t
+
+  
+Meteor is a JavaScript application development framework built on top of NodeJS. Meteor creates real-time, bi-directional application.
+•	Install Meteor from www. Meteor.com/install
+•	Building a new application in Meteor-
+o	Create a new folder myapp and go to the folder using command line.
+o	Meteor create hellometeor
+o	Use ‘meteor’ command at command line to run it.
+•	In a Meteor program both client-side and server-side code is written in a single file.
+•	HTML files do not explicitly point to css files
+•	Any changes made to HTML, CSS or JS file is automatically reflected on the browser screen.
+
+Grunt – filesystem based taskrunner
+npm install –g grunt-cli
+npm install grunt -–save-dev
+npm install grunt-contrib-cssmin   -–save-dev
+npm install grunt-contrib-uglify   -–save-dev
+npm install grunt-contrib-watch   -–save-dev
+
+Gruntfile.js
+module.exports = function(grunt) {
+  grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+        watch: {target: {
+            files: ['js/*.js', "css/*.css"],
+            tasks: ['uglify', 'cssmin']
+            }
+        },
+        cssmin: {
+                 combine: {
+                           files: {
+                                  'css/combined.css': ['css/custom.css', 'css/menu.css']
+                                  }
+                          }
+                },
+        uglify: {
+                options: {
+                          mangle: false
+                         },
+                target: {
+                          files: {
+                         	'js/combined.min.js': ['js/dropdown.js','js/util.js']
+                                 }
+                           }
+                }
+  });
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.registerTask('default',['watch']);
+}
+Gulp – a task runner with In-memory processing capabilities
+npm install –g gulp
+npm install gulp -–save-dev
+npm install grunt-cssnano   -–save-dev
+npm install grunt-concat   -–save-dev
+npm install grunt-uglify -–save-dev
+
+gulpfile
+var gulp=require('gulp');
+var uglify=require('gulp-uglify');
+var concat=require('gulp-concat');
+var cssnano=require('gulp-cssnano');
+
+gulp.task('cssmin', function() {
+    return gulp.src('css/*.css')
+        .pipe(concat('combined.min.css'))
+        .pipe(cssnano())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('uglify', function() {
+        return gulp.src('js/*.js')
+        .pipe(concat('combined.min.js'))
+        .pipe(uglify({mangle:false}))
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('watch', function() {
+  gulp.watch('js/*.js',['uglify']);
+  gulp.watch('css/*.css',['cssmin']);
+});
+
+gulp.task('default', ['watch']);
+
+Mocha – A flexible test framework for JavaScript. Alternatives are Jasmin and QUnit.
+
+Chai – A testcase writing library that allows to write test cases in following styles-
+•	Should style
+•	Assert style
+•	Expect Style
+
+npm install –g mocha
+npm install chai –-save-dev
+
+ 
+ 
+ 
+
