@@ -1,0 +1,62 @@
+Mongodb and mongo-shell
+
+mongodb installation folder-- c:\Program Files\MongoDB\Server\3.0\bin
+	mongod.exe is the mongoDB database system
+	mongo.exe is mongoDB shell that is used to manipulate mongodb without writing a program
+
+Starting mongodb
+	Create a data folder for mongodb, say c:\mongodata
+	Enter commands on command prompt starts your mongodb:
+		cd C:\Program Files\MongoDB\Server\3.0\bin
+		mongod -dbpath C:\mongodata
+		mongodb shows the following after starting-up:
+		waiting for connections on port 27017
+		
+Shutting down mongodb
+	To shutdown goto command prompt and do this to open mongo-shell:
+		cd C:\Program Files\MongoDB\Server\3.0\bin
+		mongo
+		On mongo shell prompt :
+			use admin
+			db.shutdownServer();
+
+CRUD on mongo shell :
+	use <dbname>
+
+	show collections
+
+	show dbs
+
+	db.createCollection('pavan');
+
+	var mycoll = db.getCollection('pavan');
+
+	mycoll.find();
+
+	mycoll.insert({vehicle:'car', model:'maruti', speed:100});
+	mycoll.insert({vehicle:'car', model:'bmw', speed:200});
+	mycoll.insert({vehicle:'train', model:'TGV', speed:600});
+
+	mycoll.insert({vehicle:'train', model:'IndianRail', speed:200});
+	mycoll.insert({vehicle:'aircraft', model:'boeing', speed:1500});
+	mycoll.insert({vehicle:'aircraft', model:'airbus', speed:1200});
+
+	mycoll.insert({title:'NodeJS Book', year:2016, author:'abcd'});
+	mycoll.insert({title:'AngularJS Book', year:2015});
+
+	mycoll.find();   //'car'
+	mycoll.find({vehicle:'car', speed:100});  //and condition
+	mycoll.find(   {  $or{[{vehicle:'car'}, {vehicle:'train'}]}  }  );  //OR condition
+	
+	mycoll.find({vehicle:'car'});
+
+
+	mycoll.find({speed:600});
+	mycoll.find({speed:{$gt:150}});
+
+	mycoll.update({model:'TGV'}, {$set:{speed:650}}, {multi:false, upsert:true});
+
+	mycoll.remove({model:'airbus'});
+	mycoll.remove({vehicle:'car', speed:100});
+
+	mycoll.count({vehicle:'car'});
